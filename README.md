@@ -9,26 +9,6 @@ Create stunning color palettes for your next design effortlessly! This project e
 - **User Dashboards**: Manage your published palettes, including options to delete or add new ones.
 - **Account System**: Register and log in to personalize your experience.
 
-## Installation
-
-To run this project locally:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/discover-palettes.git
-   cd discover-palettes
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm start
-   ```
-
 4. Open your browser and navigate to `http://localhost:3000`.
 
 ## Technologies Used
@@ -47,11 +27,11 @@ To run this project locally:
 ## Screenshots
 
 ![Homepage Screenshot](#)
-<img width="1440" alt="Screenshot 2024-12-18 at 22 45 59" src="https://github.com/user-attachments/assets/b63d66db-2b8d-4d30-9da5-c15b35c421c6" />
+<img width="1440" src="https://github.com/user-attachments/assets/b63d66db-2b8d-4d30-9da5-c15b35c421c6" />
 
 ![Dashboard Screenshot](#)
 
-<img width="1440" alt="Screenshot 2024-12-18 at 22 46 14" src="https://github.com/user-attachments/assets/ce2a6bf3-9c82-445a-b14e-9d96f122172e" />
+<img width="1440" src="https://github.com/user-attachments/assets/ce2a6bf3-9c82-445a-b14e-9d96f122172e" />
 
 ## Roadmap
 

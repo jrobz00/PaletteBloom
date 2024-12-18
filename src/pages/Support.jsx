@@ -1,144 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Support = () => {
+const ContactForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Submitted", formData);
+    // Add your form submission logic here (e.g., API call)
+  };
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-6 text-gray-700">
         {/* Title */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-            Need <span className="text-blue-600">Help?</span>
+            Contact <span className="text-blue-600">Us</span>
           </h1>
           <p className="text-lg text-gray-600">
-            We're here to assist you every step of the way.
+            We'd love to hear from you. Fill out the form below and we'll get
+            back to you as soon as possible.
           </p>
         </div>
 
-        {/* Support Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left: FAQ Section */}
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">FAQs</h2>
-            <ul className="space-y-6">
-              <li>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  How can I reset my password?
-                </h3>
-                <p className="text-gray-700">
-                  You can reset your password by clicking on the "Forgot
-                  Password" link on the login page and following the
-                  instructions.
-                </p>
-              </li>
-              <li>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Where can I upgrade my plan?
-                </h3>
-                <p className="text-gray-700">
-                  You can upgrade your plan by visiting the{" "}
-                  <a href="/prices" className="text-blue-600 underline">
-                    Pricing Page
-                  </a>
-                  .
-                </p>
-              </li>
-              <li>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  How do I export my palettes?
-                </h3>
-                <p className="text-gray-700">
-                  Use the export feature on the palette generator page to save
-                  your palettes as JSON, CSS, or TXT files.
-                </p>
-              </li>
-              <li>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Can I cancel my subscription?
-                </h3>
-                <p className="text-gray-700">
-                  Yes, you can cancel your subscription anytime by visiting your
-                  account settings.
-                </p>
-              </li>
-            </ul>
-          </div>
-
-          {/* Right: Contact Section */}
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Contact Us</h2>
-            <p className="text-lg text-gray-700 mb-6">
-              If you have any questions or need further assistance, feel free to
-              reach out to our support team.
-            </p>
-            <ul className="space-y-4">
-              <li>
-                <span className="font-bold text-gray-900">Email:</span>{" "}
-                <a
-                  href="mailto:support@palettebloom.com"
-                  className="text-blue-600 underline"
-                >
-                  support@palettebloom.com
-                </a>
-              </li>
-              <li>
-                <span className="font-bold text-gray-900">Phone:</span>{" "}
-                <a href="tel:+1234567890" className="text-blue-600 underline">
-                  +1 234 567 890
-                </a>
-              </li>
-              <li>
-                <span className="font-bold text-gray-900">Live Chat:</span>{" "}
-                <a href="/chat" className="text-blue-600 underline">
-                  Start a Chat
-                </a>
-              </li>
-            </ul>
-            <div className="mt-8">
-              <a
-                href="/contact"
-                className="inline-block bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-medium hover:bg-blue-700 transition"
+        {/* Contact Form */}
+        <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-6">
+              <label
+                htmlFor="name"
+                className="block text-gray-700 font-medium mb-2"
               >
-                Contact Support
-              </a>
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="Enter your name"
+                required
+              />
             </div>
-          </div>
-        </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-200 my-12"></div>
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
 
-        {/* Troubleshooting Resources */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            Troubleshooting Resources
-          </h2>
-          <p className="text-lg text-gray-700 mb-6">
-            Explore our guides and resources to resolve common issues.
-          </p>
-          <div className="flex justify-center space-x-4">
-            <a
-              href="/guides"
-              className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-900 font-medium transition"
+            <div className="mb-6">
+              <label
+                htmlFor="message"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                placeholder="Write your message"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 transition"
             >
-              User Guides
-            </a>
-            <a
-              href="/troubleshooting"
-              className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-900 font-medium transition"
-            >
-              Troubleshooting
-            </a>
-            <a
-              href="/community"
-              className="bg-gray-100 hover:bg-gray-200 px-6 py-3 rounded-lg text-gray-900 font-medium transition"
-            >
-              Community Forum
-            </a>
-          </div>
+              Send Message
+            </button>
+          </form>
         </div>
       </div>
     </section>
   );
 };
 
-export default Support;
+export default ContactForm;

@@ -7,10 +7,11 @@ const Footer = () => {
   // Check if the user is logged in (you can change this logic based on your app's authentication method)
   const isLoggedIn = !!localStorage.getItem("userToken"); // Replace with your login check logic
 
-  // Handle click on Profile Settings
-  const handleProfileSettingsClick = () => {
+  // Handle click on restricted links
+  const handleRestrictedClick = (event, targetPath) => {
+    event.preventDefault(); // Prevent default link behavior
     if (isLoggedIn) {
-      navigate("/profile-settings"); // Redirect to profile settings if logged in
+      navigate(targetPath); // Redirect to the intended path if logged in
     } else {
       navigate("/login"); // Redirect to login if not logged in
     }
@@ -31,14 +32,22 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/palettes" className="hover:text-blue-600 transition">
+                <a
+                  href="/palettes"
+                  onClick={(event) => handleRestrictedClick(event, "/palettes")}
+                  className="hover:text-blue-600 transition"
+                >
                   Palettes
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/trending-palettes" className="hover:text-blue-600 transition">
+                <a
+                  href="/trending-palettes"
+                  onClick={(event) => handleRestrictedClick(event, "/trending-palettes")}
+                  className="hover:text-blue-600 transition"
+                >
                   Trending Palettes
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -48,7 +57,11 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-4 text-gray-900">Helpful Links</h3>
             <ul className="space-y-2 text-gray-600">
               <li>
-                <Link to="/profile-settings" onClick={handleProfileSettingsClick} className="hover:text-blue-600 transition">
+                <Link
+                  to="/profile-settings"
+                  onClick={(event) => handleRestrictedClick(event, "/profile-settings")}
+                  className="hover:text-blue-600 transition"
+                >
                   Profile Settings
                 </Link>
               </li>

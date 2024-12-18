@@ -18,10 +18,10 @@ const About = () => {
         {/* Right Content - Text */}
         <div className="md:w-1/2 text-left md:ml-12 lg:ml-20">
           <h2 className="text-4xl font-bold mb-6 text-gray-900">
-            About <span className="text-blue-600">PaletteBloom</span>
+           <span className="text-black">About</span><span className="text-blue-600">Us</span><span className="text-black">?</span>
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed">
-          PaletteBloom helps you discover and generate color palettes for all your creative
+            PaletteBloom helps you discover and generate color palettes for all your creative
             needs. Whether it's for websites, branding, or design projects, we bring you
             the perfect blend of inspiration and functionality.
           </p>

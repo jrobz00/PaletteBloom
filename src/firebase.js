@@ -31,3 +31,4 @@ export const functions = getFunctions(app); // Firebase Cloud Functions Service
 
 // Export the Firebase App instance for use in the app
 export default app;
+

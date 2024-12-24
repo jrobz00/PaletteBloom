@@ -16,28 +16,38 @@ import SignUpPage from "./pages/SignUpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import TrendingPalettes from "./pages/TrendingPalettes";
 import ProfileSettingsPage from "./pages/ProfileSettingsPage";
-import CommunityPage from './pages/CommunityPage';
-import Checkout from './pages/Checkout';
+import CommunityPage from "./pages/CommunityPage";
+import Checkout from "./pages/Checkout";
 import CheckoutPage from "./pages/CheckoutPage";
 import SuccessPage from "./pages/SuccessPage";
 import CancelPage from "./pages/CancelPage";
 import AdminPage from "./components/AdminPage";
 import AddUserPage from "./components/AddUserPage"; // Ensure this path is correct
 import Dashboard from "./pages/Dashboard"; // Adjust path
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import PaymentForm from "./components/PaymentForm/PaymentForm"; // Keep the correct path
 
 const paypalClientId = process.env.REACT_APP_PAYPAL_CLIENT_ID;
+
+// Load Stripe instance
+const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
 
 function App() {
   return (
     <PayPalScriptProvider options={{ "client-id": paypalClientId }}>
       <Router>
         <div>
+          <Elements stripe={stripePromise}>
+            {/* <PaymentForm /> */}
+          </Elements>
           <Navbar />
           <Routes>
             {/* Payment Routes */}
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/cancel" element={<CancelPage />} />
+
             <Route
               path="/paypal"
               element={

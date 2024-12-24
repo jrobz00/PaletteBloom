@@ -1,23 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { FiSettings, FiEye, FiTrash2, FiUserPlus } from "react-icons/fi";
+import { FiTrash2, FiUserPlus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
-// Mock data and functions (replace with actual API calls)
-const mockUsers = [
-  { id: 1, name: "John Doe", email: "john.doe@example.com", role: "Premium" },
-  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", role: "Free" },
-  { id: 3, name: "Bob Johnson", email: "bob.johnson@example.com", role: "Premium" },
-];
-
-const fetchUsers = () => {
-  // Simulate fetching user data
-  return Promise.resolve(mockUsers);
-};
-
-const deleteUser = (userId) => {
-  // Simulate deleting a user
-  return Promise.resolve(`User with ID ${userId} deleted`);
-};
+import { db } from "../firebase"; // Ensure the path to firebase.js is correct
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -26,9 +11,21 @@ const AdminPage = () => {
 
   useEffect(() => {
     const loadUsers = async () => {
-      const data = await fetchUsers();
-      setUsers(data);
-      setLoading(false);
+      try {
+        const usersCollection = collection(db, "users");
+        const snapshot = await getDocs(usersCollection);
+        const usersList = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log("Fetched users:", usersList);
+        setUsers(usersList);
+      } catch (error) {
+        console.error("Error fetching users:", error.code, error.message);
+        alert("Failed to fetch users. Please check your Firestore rules and authentication.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadUsers();
@@ -37,14 +34,19 @@ const AdminPage = () => {
   const handleDeleteUser = async (userId) => {
     const confirmation = window.confirm("Are you sure you want to delete this user?");
     if (confirmation) {
-      await deleteUser(userId);
-      setUsers(users.filter((user) => user.id !== userId));
-      alert(`User with ID ${userId} has been deleted.`);
+      try {
+        await deleteDoc(doc(db, "users", userId));
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        alert(`User with ID ${userId} has been deleted.`);
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        alert("Failed to delete user. Please try again.");
+      }
     }
   };
 
   const handleAddUser = () => {
-    navigate("/add-user"); // Redirect to a user creation page (you'll need to create this)
+    navigate("/add-user");
   };
 
   if (loading) {
@@ -53,11 +55,8 @@ const AdminPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="text-center py-6 bg-white shadow-md">
-        <h1 className="text-2xl font-bold">
-          Admin Dashboard
-        </h1>
+        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
         <div className="flex justify-center space-x-4 mt-4">
           <button
             onClick={handleAddUser}
@@ -69,7 +68,6 @@ const AdminPage = () => {
         </div>
       </header>
 
-      {/* User Management */}
       <div className="container mx-auto mt-6 px-4">
         <h2 className="text-xl font-semibold mb-4">Registered Users</h2>
         <div className="bg-white shadow-md rounded-lg">
@@ -84,28 +82,33 @@ const AdminPage = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border-b">{user.id}</td>
-                  <td className="py-2 px-4 border-b">{user.name}</td>
-                  <td className="py-2 px-4 border-b">{user.email}</td>
-                  <td className="py-2 px-4 border-b">{user.role}</td>
-                  <td className="py-2 px-4 border-b text-center">
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="text-red-600 hover:underline flex items-center justify-center"
-                    >
-                      <FiTrash2 size={16} />
-                      <span className="ml-1">Delete</span>
-                    </button>
+              {users.length > 0 ? (
+                users.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50">
+                    <td className="py-2 px-4 border-b">{user.id}</td>
+                    <td className="py-2 px-4 border-b">{user.name || "N/A"}</td>
+                    <td className="py-2 px-4 border-b">{user.email || "N/A"}</td>
+                    <td className="py-2 px-4 border-b">{user.role || "N/A"}</td>
+                    <td className="py-2 px-4 border-b text-center">
+                      <button
+                        onClick={() => handleDeleteUser(user.id)}
+                        className="text-red-600 hover:underline flex items-center justify-center"
+                      >
+                        <FiTrash2 size={16} />
+                        <span className="ml-1">Delete</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                    No users found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
-          {users.length === 0 && (
-            <div className="text-center py-4 text-gray-500">No users found.</div>
-          )}
         </div>
       </div>
     </div>

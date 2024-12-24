@@ -1,0 +1,77 @@
+/* General Layout */
+.checkout-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Card Layout */
+  .checkout-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Title and Description */
+  .checkout-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .checkout-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #555;
+  }
+  
+  /* Checkout Details */
+  .checkout-details {
+    margin-bottom: 1.5rem;
+  }
+  
+  .checkout-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #444;
+  }
+  
+  .checkout-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* Button */
+  .checkout-button {
+    display: inline-block;
+    background-color: #2463EB;
+    color: white;
+    text-decoration: none;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Note */
+  .checkout-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  

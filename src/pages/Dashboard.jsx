@@ -9,9 +9,9 @@ import {
 import { auth } from "../firebase"; // Firebase Authentication
 
 const Dashboard = () => {
-  const [palettes, setPalettes] = useState([]); // Ensure palettes starts as an array
+  const [palettes, setPalettes] = useState([]); // User-specific palettes
   const [newPalette, setNewPalette] = useState(["", "", "", "", ""]); // Five color fields
-  const [username, setUsername] = useState(""); // Username for attribution
+  const [userId, setUserId] = useState(""); // Authenticated user's ID
   const [errorMessage, setErrorMessage] = useState(""); // To handle and display errors
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Auth state
   const navigate = useNavigate(); // For navigation
@@ -21,7 +21,7 @@ const Dashboard = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsAuthenticated(true);
-        setUsername(user.displayName || "Anonymous"); // Set username from Firebase Auth
+        setUserId(user.uid); // Store the user's unique ID
       } else {
         setIsAuthenticated(false);
         navigate("/login"); // Redirect to login if not authenticated
@@ -37,7 +37,11 @@ const Dashboard = () => {
       try {
         const savedPalettes = fetchPalettes();
         if (Array.isArray(savedPalettes)) {
-          setPalettes(savedPalettes);
+          // Filter palettes to show only those belonging to the current user
+          const userPalettes = savedPalettes.filter(
+            (palette) => palette.userId === userId
+          );
+          setPalettes(userPalettes);
         } else {
           console.warn("Invalid palettes format, resetting to empty array.");
           setPalettes([]);
@@ -47,11 +51,10 @@ const Dashboard = () => {
         setPalettes([]);
       }
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userId]);
 
   // Add a new palette
   const handleAddPalette = () => {
-    // Clear any previous error messages
     setErrorMessage("");
 
     // Validate fields
@@ -60,17 +63,14 @@ const Dashboard = () => {
       return;
     }
 
-    if (!username.trim()) {
-      setErrorMessage("Please enter your username.");
-      return;
-    }
-
     try {
-      // Save palette to local storage
-      addPalette(newPalette, username);
+      // Save palette to local storage with userId
+      addPalette(newPalette, userId);
 
       // Reload palettes from local storage
-      const updatedPalettes = fetchPalettes();
+      const updatedPalettes = fetchPalettes().filter(
+        (palette) => palette.userId === userId
+      );
       setPalettes(updatedPalettes);
 
       // Reset fields
@@ -87,7 +87,9 @@ const Dashboard = () => {
 
     try {
       deletePalette(index); // Remove from local storage
-      const updatedPalettes = fetchPalettes(); // Reload palettes
+      const updatedPalettes = fetchPalettes().filter(
+        (palette) => palette.userId === userId
+      );
       setPalettes(updatedPalettes);
     } catch (error) {
       console.error("Error deleting palette:", error);
@@ -135,22 +137,18 @@ const Dashboard = () => {
           </button>
         </div>
 
-        {Array.isArray(palettes) && palettes.length > 0 ? ( // Ensure palettes is an array
+        {palettes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {palettes.map((item, index) => (
               <div key={index} className="bg-white shadow-md rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-2">
-                  {item.username}'s Palette
-                </h3>
                 <div className="flex space-x-2 mb-4">
-                  {Array.isArray(item.palette) &&
-                    item.palette.map((color, i) => (
-                      <div
-                        key={i}
-                        style={{ backgroundColor: color }}
-                        className="w-10 h-10 rounded"
-                      />
-                    ))}
+                  {item.palette.map((color, i) => (
+                    <div
+                      key={i}
+                      style={{ backgroundColor: color }}
+                      className="w-10 h-10 rounded"
+                    />
+                  ))}
                 </div>
                 <button
                   onClick={() => handleDeletePalette(index)}

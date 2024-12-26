@@ -1,5 +1,7 @@
 const functions = require("firebase-functions");
-const stripe = require("stripe")("sk_test_51QGpPmAl1I1xEdBDl5f3oeWv6ykayNT87oi38EihVknk2YEZigsk2tnvQUYPrwm14d8YQDsSYPgS9STA03F5w7py00KBU3wEtb"); // Replace with your Stripe Secret Key
+const stripe = require("stripe")(
+  "sk_test_51QGpPmAl1I1xEdBDl5f3oeWv6ykayNT87oi38EihVknk2YEZigsk2tnvQUYPrwm14d8YQDsSYPgS9STA03F5w7py00KBU3wEtb"
+); // Replace with your Stripe Secret Key
 const cors = require("cors"); // Import CORS middleware
 
 // Initialize CORS middleware

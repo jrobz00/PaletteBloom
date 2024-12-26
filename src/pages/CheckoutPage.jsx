@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "../components/PaymentForm/PaymentForm";
 
 // Load Stripe instance
-const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
+const stripePromise = loadStripe("pk_test_51QYYH7L4aPeguOFLt4XXVNJFe9rJ8ly20ZSrHDcdoSnGBWVpW3SmhhK7F6SzEfUIHuFINTmK3hyWRgw7NByHFSv4001xAqqM4f");
 
 const CheckoutPage = () => {
   return (

@@ -27,11 +27,12 @@ import Dashboard from "./pages/Dashboard"; // Adjust path
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import PaymentForm from "./components/PaymentForm/PaymentForm"; // Keep the correct path
+import CreatePaymentIntent from "./pages/CreatePaymentIntent";
 
 const paypalClientId = process.env.REACT_APP_PAYPAL_CLIENT_ID;
 
 // Load Stripe instance
-const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
+const stripePromise = loadStripe('pk_live_51QYYH7L4aPeguOFLuzb87ZjL9anAwfCuP1rastkNt7Fy7AudNvH1vPGZzVHuGVekdAK7pN71Nft0Lq3VeMthKeg700Q2OMUNiq');
 
 function App() {
   return (
@@ -39,7 +40,6 @@ function App() {
       <Router>
         <div>
           <Elements stripe={stripePromise}>
-            {/* <PaymentForm /> */}
           </Elements>
           <Navbar />
           <Routes>
@@ -92,6 +92,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/vision" element={<Vision />} />
             <Route path="/mission" element={<Mission />} />
+            <Route path="/create-payment-intent" element={<CreatePaymentIntent />} />
             <Route path="/support" element={<Support />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/community" element={<CommunityPage />} />
